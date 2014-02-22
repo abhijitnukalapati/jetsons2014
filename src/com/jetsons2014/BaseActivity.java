@@ -8,16 +8,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 /**
  * Created by bradtop on 2/22/14.
  */
 public class BaseActivity extends Activity implements ListView.OnItemClickListener {
-    private String[] mMenuItems;
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
+    protected String[] mMenuItems;
+    protected DrawerLayout mDrawerLayout;
+    protected ListView mDrawerList;
+    protected ActionBarDrawerToggle mDrawerToggle;
+    protected FrameLayout vMainContent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class BaseActivity extends Activity implements ListView.OnItemClickListen
         mMenuItems = getResources().getStringArray(R.array.drawerList);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        vMainContent = (FrameLayout) findViewById(R.id.content_frame);
 
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, mMenuItems));
