@@ -8,6 +8,7 @@ public class MapLocation {
     private long mLongitude;
     private long mLatitude;
     private String mName;
+    private String mStoreName;
 
     public MapLocation(long longitude, long latitude, String name) {
         mLongitude = longitude;
@@ -25,5 +26,9 @@ public class MapLocation {
 
     public String getName() {
         return mName;
+    }
+    
+    public String getStoreName() {
+        return mStoreName;
     }
 }
