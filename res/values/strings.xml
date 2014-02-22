@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bike Pgh</string>
+    <string name="open_drawer">open drawer</string>
+    <string name="close_drawer">close drawer</string>
+</resources>

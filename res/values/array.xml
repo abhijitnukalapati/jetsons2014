@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="drawerList">
+        <item>Profile</item>
+        <item>Store</item>
+        <item>Achievements</item>
+        <item>POI</item>
+        <item>Events</item>
+        <item>Offers</item>
+    </string-array>
+</resources>
