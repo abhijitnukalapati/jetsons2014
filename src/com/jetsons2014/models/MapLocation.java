@@ -19,7 +19,7 @@ public class MapLocation {
         return mLongitude;
     }
 
-    public long getmLatitude() {
+    public long getLatitude() {
         return mLatitude;
     }
 
