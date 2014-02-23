@@ -7,15 +7,20 @@ import java.util.List;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -24,21 +29,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.jetsons2014.models.MapLocation;
 
-public class MainMapActivity extends BaseActivity {
+public class MainMapActivity extends BaseActivity implements OnMarkerClickListener, OnInfoWindowClickListener {
 	
 	private GoogleMap mGoogleMap;
 	private MapFragment mMapFragment;
+	private boolean mIsListening;
 	
 	private List<MarkerHolder> mEventMarkerOptions = new ArrayList<MarkerHolder>();
 	private List<MarkerHolder> mPoiMarkerOptions = new ArrayList<MarkerHolder>();
 	private List<MarkerHolder> mOfferMarkerOptions = new ArrayList<MarkerHolder>();
 	private List<MarkerHolder> mFriendMarkerOptions = new ArrayList<MarkerHolder>();
-	
-	private List<Marker> mEventMarkers = new ArrayList<Marker>();
-	private List<Marker> mPoiMarkers = new ArrayList<Marker>();
-	private List<Marker> mOfferMarkers = new ArrayList<Marker>();
-	private List<Marker> mFriendMarkers = new ArrayList<Marker>();
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,12 @@ public class MainMapActivity extends BaseActivity {
 		if (mGoogleMap == null && mMapFragment != null) {
             mGoogleMap = mMapFragment.getMap();
         }
+		if (!mIsListening && mGoogleMap != null) {
+			mGoogleMap.setOnMarkerClickListener(this);
+			mGoogleMap.setOnInfoWindowClickListener(this);
+			mIsListening = true;
+		}
+		
 		return mGoogleMap;
 	}
 	
@@ -75,15 +83,16 @@ public class MainMapActivity extends BaseActivity {
 	        	if (item.isChecked()) {
 	        		item.setIcon(R.drawable.map_event_o);
 	        		for(MarkerHolder mh : mEventMarkerOptions) {
-						mEventMarkers.add(mGoogleMap.addMarker(mh.mo));
+	        			mh.marker = mGoogleMap.addMarker(mh.mo);
+	        			mh.marker.setTitle(mh.name);
 	        		}
 	        	}
 	        	else {
 	        		item.setIcon(R.drawable.map_event);
-	        		for(Marker m : mEventMarkers) {
-        				m.remove();
+	        		for(MarkerHolder mh : mEventMarkerOptions) {
+        				mh.marker.remove();
+        				mh.marker = null;
 	        		}
-	        		mEventMarkers.clear();
 	        	}
 	        	result = true;
 	        	break;
@@ -91,15 +100,16 @@ public class MainMapActivity extends BaseActivity {
 	        	if (item.isChecked()) {
 	        		item.setIcon(R.drawable.map_location_o);
 	        		for(MarkerHolder mh : mPoiMarkerOptions) {
-						mPoiMarkers.add(mGoogleMap.addMarker(mh.mo));
+	        			mh.marker = mGoogleMap.addMarker(mh.mo);
+	        			mh.marker.setTitle(mh.name);
 	        		}
 	        	}
 	        	else {
 	        		item.setIcon(R.drawable.map_location);
-	        		for(Marker m : mPoiMarkers) {
-        				m.remove();
+	        		for(MarkerHolder mh : mPoiMarkerOptions) {
+	        			mh.marker.remove();
+        				mh.marker = null;
 	        		}
-	        		mPoiMarkers.clear();
 	        	}
 	        	result = true;
 	        	break;
@@ -107,15 +117,16 @@ public class MainMapActivity extends BaseActivity {
 	        	if (item.isChecked()) {
 	        		item.setIcon(R.drawable.map_offer_o);
 	        		for(MarkerHolder mh : mOfferMarkerOptions) {
-						mOfferMarkers.add(mGoogleMap.addMarker(mh.mo));
+	        			mh.marker = mGoogleMap.addMarker(mh.mo);
+	        			mh.marker.setTitle(mh.name);
 	        		}
 	        	}
 	        	else {
 	        		item.setIcon(R.drawable.map_offer);
-	        		for(Marker m : mOfferMarkers) {
-        				m.remove();
+	        		for(MarkerHolder mh : mOfferMarkerOptions) {
+	        			mh.marker.remove();
+        				mh.marker = null;
 	        		}
-	        		mOfferMarkers.clear();
 	        	}
 	        	result = true;
 	        	break;
@@ -123,15 +134,16 @@ public class MainMapActivity extends BaseActivity {
 	        	if (item.isChecked()) {
 	        		item.setIcon(R.drawable.map_group_o);
 	        		for(MarkerHolder mh : mFriendMarkerOptions) {
-						mFriendMarkers.add(mGoogleMap.addMarker(mh.mo));
+	        			mh.marker = mGoogleMap.addMarker(mh.mo);
+	        			mh.marker.setTitle(mh.name);
 	        		}
 	        	}
 	        	else {
 	        		item.setIcon(R.drawable.map_group);
-	        		for(Marker m : mFriendMarkers) {
-        				m.remove();
+	        		for(MarkerHolder mh : mFriendMarkerOptions) {
+	        			mh.marker.remove();
+        				mh.marker = null;
 	        		}
-	        		mFriendMarkers.clear();
 	        	}
 	        	result = true;
 	        	break;
@@ -147,17 +159,17 @@ public class MainMapActivity extends BaseActivity {
      */
     private void centerMap() {
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for(Marker m : mEventMarkers) {
-        	builder.include(m.getPosition());
+        for(MarkerHolder m : mEventMarkerOptions) {
+        	if (m.marker != null) builder.include(m.marker.getPosition());
 		}
-        for(Marker m : mPoiMarkers) {
-        	builder.include(m.getPosition());
+        for(MarkerHolder m : mPoiMarkerOptions) {
+        	if (m.marker != null) builder.include(m.marker.getPosition());
 		}
-        for(Marker m : mOfferMarkers) {
-        	builder.include(m.getPosition());
+        for(MarkerHolder m : mOfferMarkerOptions) {
+        	if (m.marker != null) builder.include(m.marker.getPosition());
 		}
-        for(Marker m : mFriendMarkers) {
-        	builder.include(m.getPosition());
+        for(MarkerHolder m : mFriendMarkerOptions) {
+        	if (m.marker != null) builder.include(m.marker.getPosition());
 		}
         try {
         	LatLngBounds bounds = builder.build();
@@ -181,6 +193,7 @@ public class MainMapActivity extends BaseActivity {
 		public MarkerOptions mo;
 		public String name;
 		public String secondaryText;
+		public Marker marker;
 		
 		MarkerHolder(MarkerOptions mo, String name, String secondaryText) {
 			this.mo = mo;
@@ -188,6 +201,68 @@ public class MainMapActivity extends BaseActivity {
 			this.secondaryText = secondaryText;
 		}
 	}
+	
+	@Override
+    public boolean onMarkerClick(Marker marker) {
+		MarkerHolder mh = null;
+		for(MarkerHolder m : mEventMarkerOptions) {
+        	if (m.marker != null) {
+        		if (m.marker.equals(marker)) {
+        			mh = m;
+        		}
+        	}
+		}
+        for(MarkerHolder m : mPoiMarkerOptions) {
+        	if (m.marker != null) {
+        		if (m.marker.equals(marker)) {
+        			mh = m;
+        		}
+        	}
+		}
+        for(MarkerHolder m : mOfferMarkerOptions) {
+        	if (m.marker != null) {
+        		if (m.marker.equals(marker)) {
+        			mh = m;
+        		}
+        	}
+		}
+        for(MarkerHolder m : mFriendMarkerOptions) {
+        	if (m.marker != null) {
+        		if (m.marker.equals(marker)) {
+        			mh = m;
+        		}
+        	}
+		}
+        /*StoreLocation sl = mMarkers.get(marker);
+
+        // clear the marker and row selections
+        for(Marker m : mMarkers.keySet()) {
+            m.setIcon(BitmapDescriptorFactory.defaultMarker());
+        }
+        for(View v : mRowViews.values()) {
+            v.setBackgroundColor(Color.WHITE);
+        }
+
+        // set the selected marker to blue
+        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+
+        if (contentContainer.getParent() instanceof CustomScrollView) {
+            // Scroll to the selected row
+            CustomScrollView csv = (CustomScrollView)contentContainer.getParent();
+            View v = mRowViews.get(sl);
+            csv.smoothScrollTo(0, v.getTop() - topAnchors.getHeight());
+            // fade the background of the selected row
+            ObjectAnimator fade = ObjectAnimator.ofObject(
+                    v,
+                    "backgroundColor",
+                    new ArgbEvaluator(),
+                    Color.WHITE,
+                    Color.argb(255, 201, 232, 255));
+            fade.setDuration(750);
+            fade.start();
+        }*/
+        return false;
+    }
 	
 	private void populateEventMarkerOptions() {
 		LatLng ll = new LatLng(40.427843, -79.96562);
@@ -231,5 +306,53 @@ public class MainMapActivity extends BaseActivity {
 		mo = new MarkerOptions();
 		mo.position(ll);
 		mFriendMarkerOptions.add(new MarkerHolder(mo, "Kenny McCormick", null));
+	}
+
+	@Override
+	public void onInfoWindowClick(Marker marker) {
+		MarkerHolder mh = null;
+		for(MarkerHolder m : mEventMarkerOptions) {
+        	if (m.marker != null) {
+        		if (m.marker.equals(marker)) {
+        			mh = m;
+        		}
+        	}
+		}
+		
+        for(MarkerHolder m : mPoiMarkerOptions) {
+        	if (m.marker != null) {
+        		if (m.marker.equals(marker)) {
+        			mh = m;
+        		}
+        	}
+		}
+        
+        for(MarkerHolder m : mOfferMarkerOptions) {
+        	if (m.marker != null) {
+        		if (m.marker.equals(marker)) {
+        			mh = m;
+        		}
+        	}
+		}
+        
+        for(MarkerHolder m : mFriendMarkerOptions) {
+        	if (m.marker != null) {
+        		if (m.marker.equals(marker)) {
+        			mh = m;
+        		}
+        	}
+		}
+        
+        if (mh != null) {
+        	Intent i = new Intent();
+        	i.setClass(this, MapLocationDetailPage.class);
+        	MapLocationDetailPage.mMapLocation = new MapLocation(
+        			mh.mo.getPosition().longitude, 
+        			mh.mo.getPosition().latitude, 
+        			mh.name,
+        			mh.secondaryText);
+        	startActivity(i);
+        }
+		
 	}
 }
