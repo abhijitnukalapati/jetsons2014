@@ -3,6 +3,8 @@ package com.jetsons2014;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,6 +27,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.GroundOverlay;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -59,6 +64,29 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
         return map;
     }
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		Timer t = new Timer();
+		t.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						if (mGoogleMap == null && mMapFragment != null) {
+				            mGoogleMap = mMapFragment.getMap();
+				        }
+						if (mGoogleMap != null) {
+							//addGroundOverlay();
+						}
+					} });
+			}
+		}, 3000);
+	}
+	
 	private GoogleMap getGoogleMapInstance() {
 		if (mGoogleMap == null && mMapFragment != null) {
             mGoogleMap = mMapFragment.getMap();
@@ -84,6 +112,7 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
 	        		item.setIcon(R.drawable.map_event_o);
 	        		for(MarkerHolder mh : mEventMarkerOptions) {
 	        			mh.marker = mGoogleMap.addMarker(mh.mo);
+	        			mh.marker.setIcon(BitmapDescriptorFactory.defaultMarker(357));
 	        			mh.marker.setTitle(mh.name);
 	        		}
 	        	}
@@ -101,6 +130,7 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
 	        		item.setIcon(R.drawable.map_location_o);
 	        		for(MarkerHolder mh : mPoiMarkerOptions) {
 	        			mh.marker = mGoogleMap.addMarker(mh.mo);
+	        			mh.marker.setIcon(BitmapDescriptorFactory.defaultMarker(228));
 	        			mh.marker.setTitle(mh.name);
 	        		}
 	        	}
@@ -118,6 +148,7 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
 	        		item.setIcon(R.drawable.map_offer_o);
 	        		for(MarkerHolder mh : mOfferMarkerOptions) {
 	        			mh.marker = mGoogleMap.addMarker(mh.mo);
+	        			mh.marker.setIcon(BitmapDescriptorFactory.defaultMarker(88));
 	        			mh.marker.setTitle(mh.name);
 	        		}
 	        	}
@@ -135,6 +166,7 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
 	        		item.setIcon(R.drawable.map_group_o);
 	        		for(MarkerHolder mh : mFriendMarkerOptions) {
 	        			mh.marker = mGoogleMap.addMarker(mh.mo);
+	        			mh.marker.setIcon(BitmapDescriptorFactory.defaultMarker(26));
 	        			mh.marker.setTitle(mh.name);
 	        		}
 	        	}
@@ -154,6 +186,35 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
 	    return result;
 	}
 	
+	private void addGroundOverlay() {
+		
+		LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for(MarkerHolder m : mEventMarkerOptions) {
+        	if (m.marker != null) builder.include(m.marker.getPosition());
+		}
+        for(MarkerHolder m : mPoiMarkerOptions) {
+        	if (m.marker != null) builder.include(m.marker.getPosition());
+		}
+        for(MarkerHolder m : mOfferMarkerOptions) {
+        	if (m.marker != null) builder.include(m.marker.getPosition());
+		}
+        for(MarkerHolder m : mFriendMarkerOptions) {
+        	if (m.marker != null) builder.include(m.marker.getPosition());
+		}
+        try {
+        	LatLngBounds bounds = builder.build();
+            //CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
+            //mGoogleMap.animateCamera(cu);
+            GroundOverlay groundOverlay = mGoogleMap.addGroundOverlay(
+        			new GroundOverlayOptions()
+            	     .image(BitmapDescriptorFactory.fromResource(R.drawable.biker))
+            	     .positionFromBounds(bounds)
+            	     .transparency(0.5f));
+        }
+        catch (IllegalStateException ise) {}
+		
+	}
+
 	/**
      * Centers the map around the markers in mMarkers
      */
@@ -233,34 +294,6 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
         		}
         	}
 		}
-        /*StoreLocation sl = mMarkers.get(marker);
-
-        // clear the marker and row selections
-        for(Marker m : mMarkers.keySet()) {
-            m.setIcon(BitmapDescriptorFactory.defaultMarker());
-        }
-        for(View v : mRowViews.values()) {
-            v.setBackgroundColor(Color.WHITE);
-        }
-
-        // set the selected marker to blue
-        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-
-        if (contentContainer.getParent() instanceof CustomScrollView) {
-            // Scroll to the selected row
-            CustomScrollView csv = (CustomScrollView)contentContainer.getParent();
-            View v = mRowViews.get(sl);
-            csv.smoothScrollTo(0, v.getTop() - topAnchors.getHeight());
-            // fade the background of the selected row
-            ObjectAnimator fade = ObjectAnimator.ofObject(
-                    v,
-                    "backgroundColor",
-                    new ArgbEvaluator(),
-                    Color.WHITE,
-                    Color.argb(255, 201, 232, 255));
-            fade.setDuration(750);
-            fade.start();
-        }*/
         return false;
     }
 	
@@ -345,7 +378,7 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
         
         if (mh != null) {
         	Intent i = new Intent();
-        	i.setClass(this, MapLocationDetailPage.class);
+        	i.setClass(this, InRouteActivity.class);
         	MapLocationDetailPage.mMapLocation = new MapLocation(
         			mh.mo.getPosition().longitude, 
         			mh.mo.getPosition().latitude, 
