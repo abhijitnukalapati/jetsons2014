@@ -6,33 +6,45 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.view.LayoutInflater;
+import android.widget.TextView;
 
 /**
  * Created by bradtop on 2/22/14.
  */
 public class BaseActivity extends Activity implements ListView.OnItemClickListener {
-    protected String[] mMenuItems;
+    private String[] mCategoryItems;
+    private String[] mFriends;
     protected DrawerLayout mDrawerLayout;
     protected ListView mDrawerList;
     protected ActionBarDrawerToggle mDrawerToggle;
     protected FrameLayout vMainContent;
+
+    private int mListViewSize;
+    private final int CATEGORY_ROW = 121;
+    private final int FRIEND_ROW = 123;
+    private final int POINTS_ROW = 125;
+    private final int LEVEL_ROW = 127;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        mMenuItems = getResources().getStringArray(R.array.drawerList);
+        mCategoryItems = getResources().getStringArray(R.array.drawerList);
+        mFriends = getResources().getStringArray(R.array.friendList);
+        mListViewSize = mCategoryItems.length + mFriends.length + 2;
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerList.setAdapter(new NavAdapter());
         vMainContent = (FrameLayout) findViewById(R.id.content_frame);
 
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mMenuItems));
         mDrawerList.setOnItemClickListener(this);
 
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -71,18 +83,88 @@ public class BaseActivity extends Activity implements ListView.OnItemClickListen
     @Override
     public void onItemClick(AdapterView parent, View view, int position, long id) {
         switch(position) {
-            case 0: // Profile
+            case 0:
                 break;
-            case 1: // Store
+            case 1:
                 break;
-            case 2: // Achievements
+            case 2:
                 break;
-            case 3: // POI
+            case 3:
                 break;
-            case 4: // Events
+            case 4:
                 break;
-            case 5: // Offers
+            case 5:
                 break;
+        }
+    }
+
+    private class NavAdapter extends BaseAdapter{
+
+        @Override
+        public int getItemViewType(int position) {
+            if(position == 0 || position == 2 || position == 4){
+                return CATEGORY_ROW;
+            } else if(position == 1) {
+                return LEVEL_ROW;
+            } else if(position == 3){
+                return POINTS_ROW;
+            } else {
+                return FRIEND_ROW;
+            }
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return 4;
+        }
+
+        @Override
+        public int getCount(){
+            return mListViewSize;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public Object getItem(int position){
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View row = convertView;
+
+            LayoutInflater inflater = getLayoutInflater();
+            switch (getItemViewType(position)) {
+                case CATEGORY_ROW:
+                    row = inflater.inflate(R.layout.drawer_category_item, null);
+                    ((TextView) (row)).setText(mCategoryItems[position / 2]);
+                    break;
+                case FRIEND_ROW:
+                    row = inflater.inflate(R.layout.drawer_friend_item, parent, false);
+                    TextView textView1 = (TextView)row.findViewById(R.id.textView);
+                    textView1.setText(mFriends[position  - 5]);
+                    break;
+                case LEVEL_ROW:
+                    row = inflater.inflate(R.layout.drawer_points_layout, parent, false);
+                    TextView textView2 = (TextView)row.findViewById(R.id.textView);
+                    textView2.setText("5");
+                    break;
+                case POINTS_ROW:
+                    row = inflater.inflate(R.layout.drawer_points_layout, parent, false);
+                    TextView textView3 = (TextView)row.findViewById(R.id.textView);
+                    textView3.setText("100");
+                    break;
+                default:
+                    row = inflater.inflate(R.layout.drawer_category_item, null);
+                    break;
+            }
+
+            return row;
+
         }
     }
 }
