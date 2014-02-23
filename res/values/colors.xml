@@ -5,4 +5,5 @@
     
     <color name="red_button_up">#DD0000</color>
     <color name="red_button_down">#AA0000</color>
+    <color name="category_bold">#8c8c8c</color>
 </resources>

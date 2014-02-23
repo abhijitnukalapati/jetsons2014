@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      android:minHeight="?android:attr/listPreferredItemHeightSmall"
-      android:paddingLeft="15dp"
+      android:orientation="vertical"
+      android:padding="15dp"
       android:layout_width="match_parent"
       android:layout_height="match_parent">
-     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textStyle="bold"
-            android:layout_marginRight="10dp"
-            android:textAppearance="?android:attr/textAppearanceListItemSmall"
-            android:id="@+id/textView"/>
+    <ImageView
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_gravity="center_horizontal"
+    	android:scaleType="centerInside"
+    	android:src="@drawable/pedal_points"/>
    	<TextView
-             android:background="@drawable/circle"
-             android:textColor="#ffffff"
-             android:gravity="center"
-             android:layout_gravity="center"
-             android:textAppearance="?android:attr/textAppearanceListItemSmall"
-             android:layout_height="wrap_content"
-             android:layout_width="wrap_content"
-             android:id="@+id/numberView"
-             android:textStyle="bold"/>
+           android:textColor="@color/category_bold"
+           android:gravity="center"
+           android:layout_gravity="center"
+           android:layout_marginRight="10dp"
+           android:textSize="22sp"
+           android:layout_height="wrap_content"
+           android:layout_width="wrap_content"
+           android:id="@+id/numberView"
+           android:textStyle="bold"/>
 </LinearLayout>
