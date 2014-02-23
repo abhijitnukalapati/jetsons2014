@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/events"
+            android:showAsAction="always"
+            android:icon="@drawable/map_event"
+            android:checkable="true"
+            android:title="Events"/>
+    <item
+            android:id="@+id/poi"
+            android:showAsAction="always"
+            android:checkable="true"
+            android:icon="@drawable/map_location"
+            android:title="POI"/>
+    <item
+            android:id="@+id/offers"
+            android:showAsAction="always"
+            android:checkable="true"
+            android:icon="@drawable/map_offer"
+            android:title="Offers"/>
+    <item
+            android:id="@+id/friends"
+            android:showAsAction="always"
+            android:checkable="true"
+            android:icon="@drawable/map_group"
+            android:title="Friends"/>
+</menu>
