@@ -1,4 +1,5 @@
-<TextView android:minHeight="?android:attr/listPreferredItemHeightSmall"
+<TextView android:maxHeight="?android:attr/listPreferredItemHeightSmall"
+          android:minHeight="?android:attr/listPreferredItemHeightSmall"
           android:background="?android:attr/activatedBackgroundIndicator"
           android:textColor="#000"
           android:paddingRight="16dp"
