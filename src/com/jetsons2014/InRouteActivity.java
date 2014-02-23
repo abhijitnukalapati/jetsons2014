@@ -55,7 +55,7 @@ public class InRouteActivity extends BaseActivity implements OnClickListener {
         anim.setStartOffset(0);
         anim.setInterpolator(new LinearInterpolator());
         anim.setRepeatCount(Animation.INFINITE);
-        anim.setDuration(200);
+        anim.setDuration(300);
         anim.setRepeatMode(Animation.REVERSE);
         
         // enter animation setup
