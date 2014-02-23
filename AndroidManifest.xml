@@ -26,12 +26,18 @@
             
         </activity>
         
-        <activity android:name="com.jetsons2014.InRouteActivity"
+        <activity android:name=".MainMapActivity"
                   android:label="@string/app_name">
                   <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+	                <action android:name="android.intent.action.MAIN"/>
+	                <category android:name="android.intent.category.LAUNCHER"/>
+            	</intent-filter>
+            
+        </activity>
+        
+        <activity android:name="com.jetsons2014.InRouteActivity"
+                  android:label="@string/app_name">
+                  
         </activity>
         <activity android:name=".HomeActivity" android:label="@string/app_name"/>
 
