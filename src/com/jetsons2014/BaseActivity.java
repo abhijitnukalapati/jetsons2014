@@ -41,7 +41,7 @@ public class BaseActivity extends Activity implements ListView.OnItemClickListen
 
         mCategoryItems = getResources().getStringArray(R.array.drawerList);
         mFriends = getResources().getStringArray(R.array.friendList);
-        mListViewSize = mCategoryItems.length + mFriends.length;
+        mListViewSize = mCategoryItems.length + mFriends.length + 1;
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -152,6 +152,7 @@ public class BaseActivity extends Activity implements ListView.OnItemClickListen
                     	((TextView) (row)).setText(sb);
                     } else {
                     	((TextView) (row)).setText("Friends");
+                    	((TextView) (row)).setBackgroundResource(R.color.category_bold);
                     }
                     break;
                 case FRIEND_ROW:
@@ -162,9 +163,7 @@ public class BaseActivity extends Activity implements ListView.OnItemClickListen
                 case POINTS_ROW:
                     row = inflater.inflate(R.layout.drawer_level_points_item, parent, false);
                     TextView numberView2 = (TextView) row.findViewById(R.id.numberView);
-                    TextView textView3 = (TextView)row.findViewById(R.id.textView);
-                    textView3.setText("Points");
-                    numberView2.setText("100");
+                    numberView2.setText("2450");
                     break;
                 default:
                     row = inflater.inflate(R.layout.drawer_category_item, null);
