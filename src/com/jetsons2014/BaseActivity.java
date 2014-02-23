@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.view.LayoutInflater;
 import android.widget.TextView;
@@ -43,8 +42,6 @@ public class BaseActivity extends Activity implements ListView.OnItemClickListen
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerList.setAdapter(new NavAdapter());
 
-//        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-//                R.layout.drawer_category_item, mCategoryItems));
         mDrawerList.setOnItemClickListener(this);
 
         mDrawerToggle = new ActionBarDrawerToggle(
