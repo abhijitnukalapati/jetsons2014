@@ -60,10 +60,10 @@ public class InRouteActivity extends BaseActivity implements OnClickListener {
         
         // enter animation setup
         mEnterAnimation = new TranslateAnimation(-1500.0f, 0f, 0, 0);
-        mEnterAnimation.setStartOffset(500);
+        mEnterAnimation.setStartOffset(1000);
         mEnterAnimation.setInterpolator(new DecelerateInterpolator());
         mEnterAnimation.setRepeatCount(0);
-        mEnterAnimation.setDuration(500);
+        mEnterAnimation.setDuration(1200);
         mEnterAnimation.setAnimationListener(new AnimationListener() {
 			
 			@Override

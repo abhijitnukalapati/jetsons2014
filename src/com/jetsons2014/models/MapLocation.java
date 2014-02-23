@@ -5,22 +5,23 @@ package com.jetsons2014.models;
  */
 public class MapLocation {
 
-    private long mLongitude;
-    private long mLatitude;
+    private double mLongitude;
+    private double mLatitude;
     private String mName;
-    private String mStoreName;
+    private String mSecondaryText;
 
-    public MapLocation(long longitude, long latitude, String name) {
+    public MapLocation(double longitude, double latitude, String name, String secondary) {
         mLongitude = longitude;
         mLatitude = latitude;
         mName = name;
+        mSecondaryText = secondary;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return mLongitude;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return mLatitude;
     }
 
@@ -28,7 +29,7 @@ public class MapLocation {
         return mName;
     }
     
-    public String getStoreName() {
-        return mStoreName;
+    public String getSecondary() {
+        return mSecondaryText;
     }
 }

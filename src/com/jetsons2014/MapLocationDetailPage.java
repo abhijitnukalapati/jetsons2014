@@ -1,6 +1,8 @@
 package com.jetsons2014;
 
 import com.jetsons2014.models.MapLocation;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,14 +23,16 @@ public class MapLocationDetailPage extends BaseActivity {
         mNameText = (TextView) findViewById(R.id.nameText);
         mStartButton = (Button) findViewById(R.id.startButton);
         if (mMapLocation != null) {
-        	mNameText.setText(mMapLocation.getStoreName() + "\n" + mMapLocation.getName());
+        	mNameText.setText(mMapLocation.getName() + "\n" + mMapLocation.getSecondary());
         }
         
         mStartButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				Intent i = new Intent();
+				i.setClass(MapLocationDetailPage.this, InRouteActivity.class);
+				startActivity(i);
 				
 			}
 		});
