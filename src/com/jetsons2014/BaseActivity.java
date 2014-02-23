@@ -1,6 +1,7 @@
 package com.jetsons2014;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.view.LayoutInflater;
 import android.widget.TextView;
@@ -159,6 +161,15 @@ public class BaseActivity extends Activity implements ListView.OnItemClickListen
                     row = inflater.inflate(R.layout.drawer_friend_item, parent, false);
                     TextView textView1 = (TextView)row.findViewById(R.id.textView);
                     textView1.setText(mFriends[position - 3]);
+                    
+                    ImageView iv = (ImageView) row.findViewById(R.id.imageView);
+                    if((position - 3) == 0 || (position - 3) == 1) {
+                    	iv.setImageResource(R.drawable.ic_user_green);
+                    } else if((position - 3) == 2) {
+                    	iv.setImageResource(R.drawable.ic_user_yellow);
+                    } else {
+                    	iv.setImageResource(R.drawable.ic_user);
+                    }
                     break;
                 case POINTS_ROW:
                     row = inflater.inflate(R.layout.drawer_level_points_item, parent, false);
