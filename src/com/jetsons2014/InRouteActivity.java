@@ -38,7 +38,7 @@ public class InRouteActivity extends BaseActivity implements OnClickListener {
 	private TranslateAnimation mLeaveAnimation;
 	private GoogleMap mGoogleMap;
 	private MapFragment mMapFragment;
-	//https://maps.google.com/?ll=40.426406,-79.963793&spn=0.001243,0.002642&t=m&z=19
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -219,12 +219,24 @@ containing a value of this type.
         public static final int ic_plusone_small_off_client=0x7f02001d;
         public static final int ic_plusone_standard_off_client=0x7f02001e;
         public static final int ic_plusone_tall_off_client=0x7f02001f;
-        public static final int red_button=0x7f020020;
+        public static final int map_event=0x7f020020;
+        public static final int map_event_o=0x7f020021;
+        public static final int map_group=0x7f020022;
+        public static final int map_group_o=0x7f020023;
+        public static final int map_location=0x7f020024;
+        public static final int map_location_o=0x7f020025;
+        public static final int map_offer=0x7f020026;
+        public static final int map_offer_o=0x7f020027;
+        public static final int map_person=0x7f020028;
+        public static final int map_person_o=0x7f020029;
+        public static final int red_button=0x7f02002a;
     }
     public static final class id {
         public static final int bikerImage=0x7f05000f;
         public static final int content_frame=0x7f050013;
         public static final int drawer_layout=0x7f050012;
+        public static final int events=0x7f050017;
+        public static final int friends=0x7f05001a;
         public static final int hybrid=0x7f050004;
         public static final int left_drawer=0x7f050014;
         public static final int map=0x7f050010;
@@ -235,11 +247,14 @@ containing a value of this type.
         public static final int nameText=0x7f050005;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
+        public static final int offers=0x7f050019;
+        public static final int poi=0x7f050018;
         public static final int pointsContainer=0x7f05000c;
         public static final int pointsLabel=0x7f05000e;
         public static final int pointsValue=0x7f05000d;
+        public static final int sartButton=0x7f050015;
         public static final int satellite=0x7f050002;
-        public static final int startButton=0x7f050015;
+        public static final int startButton=0x7f050016;
         public static final int stopButton=0x7f050011;
         public static final int terrain=0x7f050003;
         public static final int textView1=0x7f050007;
@@ -252,7 +267,11 @@ containing a value of this type.
         public static final int drawer_list_item=0x7f030000;
         public static final int in_route_activity_layout=0x7f030001;
         public static final int main=0x7f030002;
-        public static final int map_location_detail_page=0x7f030003;
+        public static final int main_map_activity_layout=0x7f030003;
+        public static final int map_location_detail_page=0x7f030004;
+    }
+    public static final class menu {
+        public static final int main_map_action_bar=0x7f090000;
     }
     public static final class string {
         public static final int app_name=0x7f06001a;
