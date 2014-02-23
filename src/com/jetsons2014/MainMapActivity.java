@@ -46,6 +46,8 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
 	private List<MarkerHolder> mPoiMarkerOptions = new ArrayList<MarkerHolder>();
 	private List<MarkerHolder> mOfferMarkerOptions = new ArrayList<MarkerHolder>();
 	private List<MarkerHolder> mFriendMarkerOptions = new ArrayList<MarkerHolder>();
+	private GroundOverlay mGroundOverlay;
+	private Button mStartButton;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,16 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
         populateEventMarkerOptions();
         populateOfferMarkerOptions();
         populateFriendMarkerOptions();
+        mStartButton = (Button) findViewById(R.id.sartButton);
+        mStartButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent();
+	        	i.setClass(MainMapActivity.this, InRouteActivity.class);
+	        	startActivity(i);
+			}
+		});
 	}
 	
 	private MapFragment getMapFragment() {
@@ -80,7 +92,8 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
 				            mGoogleMap = mMapFragment.getMap();
 				        }
 						if (mGoogleMap != null) {
-							//addGroundOverlay();
+							LatLng ll = new LatLng(40.426406, -79.96379);
+							centerMap(ll);
 						}
 					} });
 			}
@@ -113,7 +126,8 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
 	        		for(MarkerHolder mh : mEventMarkerOptions) {
 	        			mh.marker = mGoogleMap.addMarker(mh.mo);
 	        			mh.marker.setIcon(BitmapDescriptorFactory.defaultMarker(357));
-	        			mh.marker.setTitle(mh.name);
+	        			mh.marker.setTitle(mh.name + 
+	        					(mh.secondaryText == null ? "" : " - " + mh.secondaryText));
 	        		}
 	        	}
 	        	else {
@@ -131,7 +145,8 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
 	        		for(MarkerHolder mh : mPoiMarkerOptions) {
 	        			mh.marker = mGoogleMap.addMarker(mh.mo);
 	        			mh.marker.setIcon(BitmapDescriptorFactory.defaultMarker(228));
-	        			mh.marker.setTitle(mh.name);
+	        			mh.marker.setTitle(mh.name + 
+	        					(mh.secondaryText == null ? "" : " - " + mh.secondaryText));
 	        		}
 	        	}
 	        	else {
@@ -149,7 +164,8 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
 	        		for(MarkerHolder mh : mOfferMarkerOptions) {
 	        			mh.marker = mGoogleMap.addMarker(mh.mo);
 	        			mh.marker.setIcon(BitmapDescriptorFactory.defaultMarker(88));
-	        			mh.marker.setTitle(mh.name);
+	        			mh.marker.setTitle(mh.name + 
+	        					(mh.secondaryText == null ? "" : " - " + mh.secondaryText));
 	        		}
 	        	}
 	        	else {
@@ -167,7 +183,8 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
 	        		for(MarkerHolder mh : mFriendMarkerOptions) {
 	        			mh.marker = mGoogleMap.addMarker(mh.mo);
 	        			mh.marker.setIcon(BitmapDescriptorFactory.defaultMarker(26));
-	        			mh.marker.setTitle(mh.name);
+	        			mh.marker.setTitle(mh.name + 
+	        					(mh.secondaryText == null ? "" : " - " + mh.secondaryText));
 	        		}
 	        	}
 	        	else {
@@ -179,35 +196,42 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
 	        	}
 	        	result = true;
 	        	break;
+	        case R.id.heatmap:
+	        	if (item.isChecked()) {
+	        		item.setIcon(R.drawable.map_routes_o);
+	        		addGroundOverlay();
+	        	}
+	        	else {
+	        		item.setIcon(R.drawable.map_routes);
+	        		mGroundOverlay.remove();
+	        		mGroundOverlay = null;
+	        	}
+	        	result = true;
+	        	break;
 	        default:
 	        	result = super.onOptionsItemSelected(item);
 	    }
-	    centerMap();
+	    if (item.isChecked() && item.getItemId() != R.id.heatmap) {
+	    	centerMap();
+	    }
+	    
 	    return result;
 	}
 	
 	private void addGroundOverlay() {
 		
 		LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for(MarkerHolder m : mEventMarkerOptions) {
-        	if (m.marker != null) builder.include(m.marker.getPosition());
-		}
-        for(MarkerHolder m : mPoiMarkerOptions) {
-        	if (m.marker != null) builder.include(m.marker.getPosition());
-		}
-        for(MarkerHolder m : mOfferMarkerOptions) {
-        	if (m.marker != null) builder.include(m.marker.getPosition());
-		}
-        for(MarkerHolder m : mFriendMarkerOptions) {
-        	if (m.marker != null) builder.include(m.marker.getPosition());
-		}
+		//https://maps.google.com/?ll=40.430124,-79.972843&spn=0.001156,0.002642&t=m&z=19
+		LatLng topLeft = new LatLng(40.430424, -79.972832);
+		builder.include(topLeft);
+		//https://maps.google.com/?ll=40.422167,-79.963823&spn=0.002311,0.005284&t=m&z=18
+		LatLng bottomRight = new LatLng(40.422467, -79.963812);
+		builder.include(bottomRight);
         try {
         	LatLngBounds bounds = builder.build();
-            //CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
-            //mGoogleMap.animateCamera(cu);
-            GroundOverlay groundOverlay = mGoogleMap.addGroundOverlay(
+            mGroundOverlay = mGoogleMap.addGroundOverlay(
         			new GroundOverlayOptions()
-            	     .image(BitmapDescriptorFactory.fromResource(R.drawable.biker))
+            	     .image(BitmapDescriptorFactory.fromResource(R.drawable.map_overlay))
             	     .positionFromBounds(bounds)
             	     .transparency(0.5f));
         }
@@ -239,6 +263,18 @@ public class MainMapActivity extends BaseActivity implements OnMarkerClickListen
         }
         catch (IllegalStateException ise) {}
         
+    }
+    
+    private void centerMap(LatLng ll) {
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        builder.include(ll);
+        LatLng buffer = new LatLng(ll.latitude+0.0012, ll.longitude+0.0012);
+        builder.include(buffer);
+        buffer = new LatLng(ll.latitude-0.0012, ll.longitude-0.0012);
+        builder.include(buffer);
+        LatLngBounds bounds = builder.build();
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 10);
+        mGoogleMap.animateCamera(cu);
     }
 	
 	@Override

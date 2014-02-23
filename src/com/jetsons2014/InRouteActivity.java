@@ -99,6 +99,7 @@ public class InRouteActivity extends BaseActivity implements OnClickListener {
 		});
         
         mBikerImage.startAnimation(mEnterAnimation);
+        getActionBar().hide();
     }
 	
 	private MapFragment getMapFragment() {

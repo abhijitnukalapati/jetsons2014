@@ -24,4 +24,10 @@
             android:checkable="true"
             android:icon="@drawable/map_group"
             android:title="Friends"/>
+    <item
+            android:id="@+id/heatmap"
+            android:showAsAction="always"
+            android:checkable="true"
+            android:icon="@drawable/map_routes"
+            android:title="Heatmap"/>
 </menu>
