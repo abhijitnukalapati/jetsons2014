@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.plus.model.people.Person.Image;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -95,6 +96,10 @@ public class InRouteActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				InRouteActivity.this.finish();
+				
+				Intent i = new Intent(InRouteActivity.this, AchievementsActivity.class);
+            	startActivity(i);
+            	overridePendingTransition(R.anim.slide_up_enter, R.anim.stay_anim);
 			}
 		});
         
