@@ -13,15 +13,22 @@
         android:layout_weight="3"
         android:padding="10dp" >
         
+        <ImageView
+            android:id="@+id/backImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/biker_background_top" />
+        
         <LinearLayout
             android:id="@+id/milesContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="20dp"
-            android:background="#dddddd"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="5dp"
             android:gravity="center"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -31,15 +38,17 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="15"
-                android:textSize="28sp"
+                android:text="1.5 "
+                android:textSize="26sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="MILES"
-                android:textSize="22sp" />
+                android:textSize="20sp" />
+
             </LinearLayout>
             
         <LinearLayout
@@ -47,10 +56,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="#dddddd"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="37dp"
+            android:layout_marginTop="5dp"
             android:gravity="center"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -60,15 +69,17 @@
                 android:id="@+id/mphValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="11.8"
-                android:textSize="28sp"
+                android:text="11 "
+                android:textSize="26sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/mphLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="MPH"
-                android:textSize="22sp" />
+                android:textSize="20sp" />
+
             </LinearLayout>
             
         <LinearLayout
@@ -76,37 +87,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:background="#dddddd"
-            android:gravity="center"
+            android:layout_marginBottom="35dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="top|left"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="10dp" >
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp" >
 
             <TextView
                 android:id="@+id/pointsValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="79"
-                android:textSize="28sp"
+                android:text="79 "
+                android:textSize="26sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/pointsLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="POINTS"
-                android:textSize="22sp" />
+                android:textSize="20sp" />
+
             </LinearLayout>
 
         <ImageView
             android:id="@+id/bikerImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/pointsContainer"
-            android:layout_alignTop="@id/milesContainer"
+            android:layout_marginBottom="80dp"
+            android:layout_marginTop="20dp"
             android:paddingTop="20dp"
             android:scaleType="fitCenter"
             android:src="@drawable/biker" />
