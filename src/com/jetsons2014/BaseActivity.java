@@ -1,9 +1,13 @@
 package com.jetsons2014;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +33,6 @@ public class BaseActivity extends Activity implements ListView.OnItemClickListen
     private final int CATEGORY_ROW = 121;
     private final int FRIEND_ROW = 123;
     private final int POINTS_ROW = 125;
-    private final int LEVEL_ROW = 127;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,7 @@ public class BaseActivity extends Activity implements ListView.OnItemClickListen
 
         mCategoryItems = getResources().getStringArray(R.array.drawerList);
         mFriends = getResources().getStringArray(R.array.friendList);
-        mListViewSize = mCategoryItems.length + mFriends.length + 2;
+        mListViewSize = mCategoryItems.length + mFriends.length;
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -102,11 +105,9 @@ public class BaseActivity extends Activity implements ListView.OnItemClickListen
 
         @Override
         public int getItemViewType(int position) {
-            if(position == 0 || position == 2 || position == 4){
+            if(position == 0 || position == 2){
                 return CATEGORY_ROW;
-            } else if(position == 1) {
-                return LEVEL_ROW;
-            } else if(position == 3){
+            } else if(position == 1){
                 return POINTS_ROW;
             } else {
                 return FRIEND_ROW;
@@ -115,7 +116,7 @@ public class BaseActivity extends Activity implements ListView.OnItemClickListen
 
         @Override
         public int getViewTypeCount() {
-            return 4;
+            return 3;
         }
 
         @Override
@@ -141,22 +142,29 @@ public class BaseActivity extends Activity implements ListView.OnItemClickListen
             switch (getItemViewType(position)) {
                 case CATEGORY_ROW:
                     row = inflater.inflate(R.layout.drawer_category_item, null);
-                    ((TextView) (row)).setText(mCategoryItems[position / 2]);
+                    if(position == 0){
+                    	((TextView) (row)).setTypeface(null,Typeface.NORMAL);
+                    	SpannableStringBuilder sb = new SpannableStringBuilder();
+                    	sb.append("Christov");
+                    	int bold_font_end = sb.length();
+                    	sb.append(" - Road Warrior");
+                    	sb.setSpan(new StyleSpan(Typeface.BOLD), 0, bold_font_end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    	((TextView) (row)).setText(sb);
+                    } else {
+                    	((TextView) (row)).setText("Friends");
+                    }
                     break;
                 case FRIEND_ROW:
                     row = inflater.inflate(R.layout.drawer_friend_item, parent, false);
                     TextView textView1 = (TextView)row.findViewById(R.id.textView);
-                    textView1.setText(mFriends[position  - 5]);
-                    break;
-                case LEVEL_ROW:
-                    row = inflater.inflate(R.layout.drawer_points_layout, parent, false);
-                    TextView textView2 = (TextView)row.findViewById(R.id.textView);
-                    textView2.setText("5");
+                    textView1.setText(mFriends[position - 3]);
                     break;
                 case POINTS_ROW:
-                    row = inflater.inflate(R.layout.drawer_points_layout, parent, false);
+                    row = inflater.inflate(R.layout.drawer_level_points_item, parent, false);
+                    TextView numberView2 = (TextView) row.findViewById(R.id.numberView);
                     TextView textView3 = (TextView)row.findViewById(R.id.textView);
-                    textView3.setText("100");
+                    textView3.setText("Points");
+                    numberView2.setText("100");
                     break;
                 default:
                     row = inflater.inflate(R.layout.drawer_category_item, null);
