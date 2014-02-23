@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <RelativeLayout
+        android:id="@+id/nameText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="3"
+        android:padding="10dp" >
+        
+        <LinearLayout
+            android:id="@+id/milesContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:background="#dddddd"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MILES"
+                android:textSize="22sp" />
+            </LinearLayout>
+            
+        <LinearLayout
+            android:id="@+id/mphContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="#dddddd"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp" >
+
+            <TextView
+                android:id="@+id/mphValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="11.8"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/mphLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MPH"
+                android:textSize="22sp" />
+            </LinearLayout>
+            
+        <LinearLayout
+            android:id="@+id/pointsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:background="#dddddd"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp" >
+
+            <TextView
+                android:id="@+id/pointsValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="79"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/pointsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="POINTS"
+                android:textSize="22sp" />
+            </LinearLayout>
+
+        <ImageView
+            android:id="@+id/bikerImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/pointsContainer"
+            android:layout_alignTop="@id/milesContainer"
+            android:paddingTop="20dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/biker" />
+
+    </RelativeLayout>
+    
+    <fragment
+              android:id="@+id/map"
+              android:layout_width="match_parent"
+              android:layout_height="0dp"
+              class="com.google.android.gms.maps.MapFragment"
+              android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/stopButton"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:background="@drawable/red_button"
+        android:gravity="center"
+        android:text="STOP"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+</LinearLayout>
