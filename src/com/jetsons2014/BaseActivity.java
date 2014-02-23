@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.view.LayoutInflater;
 import android.widget.TextView;
@@ -19,9 +20,10 @@ import android.widget.TextView;
 public class BaseActivity extends Activity implements ListView.OnItemClickListener {
     private String[] mCategoryItems;
     private String[] mFriends;
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
+    protected DrawerLayout mDrawerLayout;
+    protected ListView mDrawerList;
+    protected ActionBarDrawerToggle mDrawerToggle;
+    protected FrameLayout vMainContent;
 
     private int mListViewSize;
     private final int CATEGORY_ROW = 121;
@@ -41,6 +43,7 @@ public class BaseActivity extends Activity implements ListView.OnItemClickListen
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerList.setAdapter(new NavAdapter());
+        vMainContent = (FrameLayout) findViewById(R.id.content_frame);
 
         mDrawerList.setOnItemClickListener(this);
 

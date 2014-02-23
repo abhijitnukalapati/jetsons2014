@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="green_button_up">#00DD00</color>
+    <color name="green_button_down">#00AA00</color>
+    
+    <color name="red_button_up">#DD0000</color>
+    <color name="red_button_down">#AA0000</color>
+</resources>
